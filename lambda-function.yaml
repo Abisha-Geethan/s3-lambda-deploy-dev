@@ -35,15 +35,14 @@ Resources:
     Type: AWS::Lambda::Function
     Properties:
       FunctionName: !Sub MyLambda-${AWS::Region}
-      Handler: index.handler
+      Handler: index.lambda_handler
       Role: !GetAtt LambdaExecutionRole.Arn
-      Runtime: nodejs18.x
+      Runtime: python3.12
       Code:
-        ZipFile: |
-          exports.handler = async (event) => {
-            console.log("Lambda triggered");
-            return {
-              statusCode: 200,
-              body: "Hello from Lambda!"
-            };
-          };
+  ZipFile: |
+    def lambda_handler(event, context):
+        print("Lambda triggered")
+        return {
+            'statusCode': 200,
+            'body': 'Hello from Lambda!'
+        }
